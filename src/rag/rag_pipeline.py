@@ -5,7 +5,7 @@ RAG (Retrieval-Augmented Generation) 检索增强生成系统
 """
 import os
 import numpy as np
-from typing import List, Dict, Tuple, Optional
+from typing import List, Dict, Tuple
 
 
 class DocumentLoader:
@@ -71,7 +71,7 @@ class TextSplitter:
                     merged_splits.append(current.strip())
                 if len(split) > self.chunk_size:
                     if separators.index(separator) < len(separators) - 1:
-                        sub_chunks = self._recursive_split(split, separators[separators.index(separator)+1:])
+                        sub_chunks = self._recursive_split(split, separators[separators.index(separator) + 1:])
                         merged_splits.extend(sub_chunks)
                     else:
                         merged_splits.append(split[:self.chunk_size])
@@ -297,9 +297,15 @@ if __name__ == '__main__':
 
     # 2. 摄入文档
     docs = [
-        {'name': 'product_manual.txt', 'content': '本产品支持图像分类功能，支持ResNet和ViT模型。训练时使用混合精度可以加速50%。模型支持导出为ONNX格式部署。'},
-        {'name': 'api_docs.txt', 'content': 'API服务运行在8000端口，支持/predict和/gradcam接口。请求需要上传图片文件，返回JSON格式的预测结果。'},
-        {'name': 'deployment_guide.txt', 'content': '使用Docker部署镜像，docker-compose up启动服务。支持GPU加速，需要安装nvidia-docker。健康检查在/health路径。'},
+        {'name': 'product_manual.txt',
+         'content': '本产品支持图像分类功能，支持ResNet和ViT模型。'
+                    '训练时使用混合精度可以加速50%。模型支持导出为ONNX格式部署。'},
+        {'name': 'api_docs.txt',
+         'content': 'API服务运行在8000端口，支持/predict和/gradcam接口。'
+                    '请求需要上传图片文件，返回JSON格式的预测结果。'},
+        {'name': 'deployment_guide.txt',
+         'content': '使用Docker部署镜像，docker-compose up启动服务。'
+                    '支持GPU加速，需要安装nvidia-docker。健康检查在/health路径。'},
     ]
     rag.ingest(docs)
 
@@ -307,6 +313,6 @@ if __name__ == '__main__':
     result = rag.query("如何部署这个模型？")
     print(f"\n问题: {result['question']}")
     print(f"回答: {result['answer']}")
-    print(f"\n参考来源:")
+    print("\n参考来源:")
     for src in result['sources']:
         print(f"  - {src['source']} (相关度: {src['score']:.3f})")

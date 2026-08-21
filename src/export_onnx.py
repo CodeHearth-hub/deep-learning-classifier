@@ -74,7 +74,7 @@ class ModelExporter:
         original_size = self._get_model_size(self.model)
         quantized_size = self._get_model_size(quantized_model)
         print(f"Model size: {original_size:.2f} MB -> {quantized_size:.2f} MB "
-              f"(reduced {100*(1-quantized_size/original_size):.1f}%)")
+              f"(reduced {100 * (1 - quantized_size / original_size):.1f}%)")
 
         return quantized_model
 
@@ -121,7 +121,11 @@ class ModelExporter:
 
         print(f"\nInference Benchmark (batch_size={batch_size}, device={self.device}):")
         print(f"  Mean latency: {results['mean_latency_ms']:.2f} ms")
-        print(f"  P50: {results['p50_latency_ms']:.2f} ms | P95: {results['p95_latency_ms']:.2f} ms | P99: {results['p99_latency_ms']:.2f} ms")
+        print(
+            f"  P50: {
+                results['p50_latency_ms']:.2f} ms | P95: {
+                results['p95_latency_ms']:.2f} ms | P99: {
+                results['p99_latency_ms']:.2f} ms")
         print(f"  Throughput: {results['throughput_fps']:.1f} FPS")
 
         return results
@@ -171,8 +175,20 @@ def export_pipeline(model, output_dir='deploy', input_size=(1, 3, 224, 224)):
     print("=" * 50)
     print(f"{'Metric':<25} {'Original':>12} {'Quantized':>12} {'Improvement':>12}")
     print("-" * 65)
-    print(f"{'Mean Latency (ms)':<25} {original_results['mean_latency_ms']:>12.2f} {quantized_results['mean_latency_ms']:>12.2f} {100*(1-quantized_results['mean_latency_ms']/original_results['mean_latency_ms']):>11.1f}%")
-    print(f"{'Throughput (FPS)':<25} {original_results['throughput_fps']:>12.1f} {quantized_results['throughput_fps']:>12.1f} {100*(quantized_results['throughput_fps']/original_results['throughput_fps']-1):>11.1f}%")
+    print(
+        f"{
+            'Mean Latency (ms)':<25} {
+            original_results['mean_latency_ms']:>12.2f} {
+                quantized_results['mean_latency_ms']:>12.2f} {
+                    100 * (
+                        1 - quantized_results['mean_latency_ms'] / original_results['mean_latency_ms']):>11.1f}%")
+    print(
+        f"{
+            'Throughput (FPS)':<25} {
+            original_results['throughput_fps']:>12.1f} {
+                quantized_results['throughput_fps']:>12.1f} {
+                    100 * (
+                        quantized_results['throughput_fps'] / original_results['throughput_fps'] - 1):>11.1f}%")
 
     return {
         'original': original_results,

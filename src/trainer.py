@@ -2,7 +2,6 @@
 训练器：支持混合精度、知识蒸馏、早停、学习率调度
 """
 import os
-import time
 import numpy as np
 import torch
 import torch.nn as nn
@@ -103,7 +102,7 @@ class Trainer:
         correct = 0
         total = 0
 
-        pbar = tqdm(self.train_loader, desc=f"Epoch {self.current_epoch+1}/{self.epochs}")
+        pbar = tqdm(self.train_loader, desc=f"Epoch {self.current_epoch + 1}/{self.epochs}")
         for batch_idx, (images, targets) in enumerate(pbar):
             images = images.to(self.device, non_blocking=True)
             targets = targets.to(self.device, non_blocking=True)
@@ -137,15 +136,15 @@ class Trainer:
             _, predicted = outputs.max(1)
             total += targets.size(0)
             if use_mixup or use_cutmix:
-                correct += (lam * predicted.eq(targets_a).sum().float() +
-                           (1 - lam) * predicted.eq(targets_b).sum().float()).item()
+                correct += (lam * predicted.eq(targets_a).sum().float()
+                            + (1 - lam) * predicted.eq(targets_b).sum().float()).item()
             else:
                 correct += predicted.eq(targets).sum().item()
 
             if batch_idx % self.print_freq == 0:
                 pbar.set_postfix({
-                    'loss': f'{total_loss/(batch_idx+1):.4f}',
-                    'acc': f'{100.*correct/total:.2f}%',
+                    'loss': f'{total_loss / (batch_idx + 1):.4f}',
+                    'acc': f'{100. * correct / total:.2f}%',
                     'lr': f'{self.optimizer.param_groups[0]["lr"]:.6f}'
                 })
 
@@ -222,13 +221,13 @@ class Trainer:
             else:
                 self.early_stop_counter += 1
 
-            print(f"Epoch {epoch+1}/{self.epochs} - "
+            print(f"Epoch {epoch + 1}/{self.epochs} - "
                   f"Train Loss: {train_loss:.4f}, Train Acc: {train_acc:.2f}% - "
                   f"Val Loss: {val_loss:.4f}, Val Acc: {val_acc:.2f}%")
 
             # 早停
             if self.early_stop_counter >= self.early_stop_patience:
-                print(f"Early stopping at epoch {epoch+1}")
+                print(f"Early stopping at epoch {epoch + 1}")
                 break
 
         if self.writer:
