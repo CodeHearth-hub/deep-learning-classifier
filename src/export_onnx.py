@@ -176,19 +176,17 @@ def export_pipeline(model, output_dir='deploy', input_size=(1, 3, 224, 224)):
     print(f"{'Metric':<25} {'Original':>12} {'Quantized':>12} {'Improvement':>12}")
     print("-" * 65)
     print(
-        f"{
-            'Mean Latency (ms)':<25} {
-            original_results['mean_latency_ms']:>12.2f} {
-                quantized_results['mean_latency_ms']:>12.2f} {
-                    100 * (
-                        1 - quantized_results['mean_latency_ms'] / original_results['mean_latency_ms']):>11.1f}%")
+        f"{'Mean Latency (ms)':<25} "
+        f"{original_results['mean_latency_ms']:>12.2f} "
+        f"{quantized_results['mean_latency_ms']:>12.2f} "
+        f"{100 * (1 - quantized_results['mean_latency_ms'] / original_results['mean_latency_ms']):>11.1f}%"
+    )
     print(
-        f"{
-            'Throughput (FPS)':<25} {
-            original_results['throughput_fps']:>12.1f} {
-                quantized_results['throughput_fps']:>12.1f} {
-                    100 * (
-                        quantized_results['throughput_fps'] / original_results['throughput_fps'] - 1):>11.1f}%")
+        f"{'Throughput (FPS)':<25} "
+        f"{original_results['throughput_fps']:>12.1f} "
+        f"{quantized_results['throughput_fps']:>12.1f} "
+        f"{100 * (quantized_results['throughput_fps'] / original_results['throughput_fps'] - 1):>11.1f}%"
+    )
 
     return {
         'original': original_results,
