@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.9', '3.10', '3.11']
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Lint with flake8
+      run: |
+        pip install flake8
+        flake8 src/ --max-line-length=120 --extend-ignore=E203,W503
+
+    - name: Run unit tests
+      run: |
+        python -m pytest tests/ -v --tb=short
+
+    - name: Verify model creation
+      run: |
+        python -c "
+        import sys; sys.path.insert(0, '.')
+        from src.models import Classifier, count_parameters
+        import torch
+        model = Classifier('resnet18', num_classes=10, pretrained=False)
+        x = torch.randn(2, 3, 224, 224)
+        with torch.no_grad():
+            out = model(x)
+        assert out.shape == (2, 10), f'Expected (2,10), got {out.shape}'
+        print(f'Model OK: {count_parameters(model):,} params, output shape {out.shape}')
+        "

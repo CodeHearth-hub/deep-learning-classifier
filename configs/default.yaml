@@ -1,0 +1,49 @@
+# 模型配置
+model:
+  name: resnet50            # resnet18, resnet34, resnet50, efficientnet_b0, efficientnet_b3, vit_base
+  pretrained: true
+  num_classes: 10
+  dropout: 0.3
+
+# 数据配置
+data:
+  train_dir: data/train
+  val_dir: data/val
+  batch_size: 64
+  num_workers: 4
+  img_size: 224
+  augment:
+    randaugment: true
+    mixup_alpha: 0.2
+    cutmix_alpha: 1.0
+    horizontal_flip: 0.5
+    rotation: 15
+
+# 训练配置
+train:
+  epochs: 100
+  lr: 0.001
+  weight_decay: 0.05
+  optimizer: adamw           # sgd, adam, adamw
+  scheduler: cosine          # step, cosine, plateau
+  warmup_epochs: 5
+  warmup_lr: 0.00001
+  amp: true                  # 混合精度训练
+  grad_clip: 1.0
+  early_stop_patience: 10
+  seed: 42
+
+# 知识蒸馏
+distillation:
+  enabled: false
+  teacher_model: resnet152
+  teacher_checkpoint: checkpoints/teacher.pth
+  temperature: 4.0
+  alpha: 0.7                 # 蒸馏损失权重
+
+# 日志与保存
+log:
+  tensorboard: true
+  print_freq: 50
+  save_dir: checkpoints
+  save_best_only: true

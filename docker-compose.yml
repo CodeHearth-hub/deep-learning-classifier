@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  classifier-api:
+    build: .
+    container_name: image-classifier-api
+    ports:
+      - "8000:8000"
+    environment:
+      - CONFIG_PATH=configs/default.yaml
+      - CHECKPOINT_PATH=checkpoints/best.pth
+    volumes:
+      - ./checkpoints:/app/checkpoints
+      - ./configs:/app/configs
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
