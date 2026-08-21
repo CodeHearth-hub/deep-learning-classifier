@@ -1,6 +1,6 @@
 """
 RAG (Retrieval-Augmented Generation) 检索增强生成系统
-AI应用工程师核心技能：大模型应用开发
+大模型应用开发
 支持：文档加载、文本分块、向量化、语义检索、LLM生成回答
 """
 import os

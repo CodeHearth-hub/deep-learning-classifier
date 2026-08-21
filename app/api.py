@@ -1,6 +1,6 @@
 """
 FastAPI 推理服务
-AI应用工程师核心技能：模型部署为REST API
+模型部署为REST API
 支持：单图预测、批量预测、Grad-CAM可视化、健康检查
 运行: uvicorn app.api:app --host 0.0.0.0 --port 8000
 """
