@@ -122,10 +122,10 @@ class ModelExporter:
         print(f"\nInference Benchmark (batch_size={batch_size}, device={self.device}):")
         print(f"  Mean latency: {results['mean_latency_ms']:.2f} ms")
         print(
-            f"  P50: {
-                results['p50_latency_ms']:.2f} ms | P95: {
-                results['p95_latency_ms']:.2f} ms | P99: {
-                results['p99_latency_ms']:.2f} ms")
+            f"  P50: {results['p50_latency_ms']:.2f} ms | "
+            f"P95: {results['p95_latency_ms']:.2f} ms | "
+            f"P99: {results['p99_latency_ms']:.2f} ms"
+        )
         print(f"  Throughput: {results['throughput_fps']:.1f} FPS")
 
         return results
