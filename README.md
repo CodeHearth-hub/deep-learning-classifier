@@ -1,5 +1,10 @@
 # Deep Learning Classifier
 
+![CI](https://github.com/CodeHearth-hub/deep-learning-classifier/actions/workflows/ci.yml/badge.svg)
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.0%2B-red)
+![License](https://img.shields.io/badge/License-MIT-green)
+
 一个基于 PyTorch 的工业级图像分类框架，支持多种 Backbone、混合精度训练、知识蒸馏和 Grad-CAM 可解释性分析。
 
 ## 特性
